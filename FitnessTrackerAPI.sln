@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessTrackerAPI", "FitnessTrackerAPI.csproj", "{9F2D7A98-1525-42CE-8FA6-5572CD3A5DF0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F2D7A98-1525-42CE-8FA6-5572CD3A5DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2D7A98-1525-42CE-8FA6-5572CD3A5DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2D7A98-1525-42CE-8FA6-5572CD3A5DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2D7A98-1525-42CE-8FA6-5572CD3A5DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D00CE9F-DB48-45CA-8229-9DE3A63875D0}
+	EndGlobalSection
+EndGlobal
