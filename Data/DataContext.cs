@@ -24,6 +24,21 @@ namespace FitnessTrackerAPI.Data
                 .WithOne(x => x.Role)
                 .HasForeignKey(x => x.RoleId)
                 .IsRequired();
+
+            builder.Entity<Workout>()
+                .HasOne(w => w.RunLog)
+                .WithOne(r => r.Workout)
+                .HasForeignKey<RunLog>(l => l.WorkoutId);
+
+            builder.Entity<WeightliftingLog>()
+                .HasOne(w => w.Workout)
+                .WithOne()
+                .HasForeignKey<WeightliftingLog>(w => w.WorkoutId);
+
+            builder.Entity<Exercise>()
+                .HasOne(e => e.WeightliftingLog)
+                .WithMany(wl => wl.Exercises)
+                .HasForeignKey(e => e.WeightliftingLogId);
         }
     }
 }

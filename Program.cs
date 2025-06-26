@@ -1,7 +1,6 @@
 
 using FitnessTrackerAPI.ApplicationExstensions;
-using FitnessTrackerAPI.Entities;
-using Microsoft.AspNetCore.Identity;
+using FitnessTrackerAPI.Middleware;
 
 namespace FitnessTrackerAPI
 {
@@ -23,6 +22,7 @@ namespace FitnessTrackerAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
