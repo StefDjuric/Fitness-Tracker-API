@@ -1,5 +1,7 @@
 ﻿using FitnessTrackerAPI.Data;
 using FitnessTrackerAPI.Entities;
+using FitnessTrackerAPI.Interfaces;
+using FitnessTrackerAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,10 @@ namespace FitnessTrackerAPI.ApplicationExstensions
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped<ITokenService, TokenService>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
 
             return services;

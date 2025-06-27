@@ -12,6 +12,7 @@ namespace FitnessTrackerAPI
 
             // Add services to the container.
             builder.Services.AddAplicationServices(builder.Configuration);
+            builder.Services.AddIdentityServices(builder.Configuration);
 
             var app = builder.Build();
 
