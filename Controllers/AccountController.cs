@@ -2,7 +2,6 @@
 using FitnessTrackerAPI.Entities;
 using FitnessTrackerAPI.Interfaces;
 using FitnessTrackerAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,14 +28,19 @@ namespace FitnessTrackerAPI.Controllers
 
             var result = await userManager.CreateAsync(user, registerDto.Password);
 
+            // Add Role
+            await userManager.AddToRoleAsync(user, "Member");
+
             if (!result.Succeeded) return BadRequest("Could not register user");
 
-            return new UserDto
+            var userDto = new UserDto
             {
                 FullName = registerDto.FullName,
                 Token = await tokenService.CreateToken(user),
                 UserName = registerDto.UserName.ToLower(),
             };
+
+            return CreatedAtRoute("GetMemberByIdAsync", new {id = user.Id}, userDto);
         }
 
         [HttpPost("login")]
@@ -52,12 +56,14 @@ namespace FitnessTrackerAPI.Controllers
 
             if (!result) return Unauthorized("Wrong password");
 
-            return new UserDto
+            var userDto = new UserDto
             {
                 FullName = existingUser.FullName,
                 Token = await tokenService.CreateToken(existingUser),
                 UserName = existingUser.UserName,
             };
+
+            return Ok(userDto);
         }
 
     }

@@ -1,10 +1,10 @@
 ﻿using FitnessTrackerAPI.Data;
 using FitnessTrackerAPI.Entities;
 using FitnessTrackerAPI.Interfaces;
+using FitnessTrackerAPI.Repositories;
 using FitnessTrackerAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FitnessTrackerAPI.ApplicationExstensions
 {
@@ -35,8 +35,11 @@ namespace FitnessTrackerAPI.ApplicationExstensions
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
 
+            // CORS
+            services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IWorkoutRepository, WorkoutRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
 

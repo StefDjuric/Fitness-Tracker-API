@@ -10,6 +10,10 @@ namespace FitnessTrackerAPI.Helpers
         {
             CreateMap<User, MemberDto>();
             CreateMap<RegisterDto, User>();
+            CreateMap<Workout, WorkoutDto>().ReverseMap();
+            CreateMap<Exercise, ExerciseDto>().ReverseMap();
+            CreateMap<WeightliftingLog, WeightliftingLogDto>().ReverseMap();
+            CreateMap<RunLog, RunLogDto>().ReverseMap();
         }
     }
 }

@@ -12,5 +12,6 @@
 
         // Navigation
         public RunLog? RunLog { get; set; } 
+        public WeightliftingLog? WeightliftingLog { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace FitnessTrackerAPI.Interfaces
         public Task<bool> SaveAllAsync();
         void Update(User user);
         public Task<MemberDto?> GetMemberByIdAsync(int id);
-        public Task<MemberDto?> GetMemberByUsername(string username);
+        public Task<MemberDto?> GetMemberByUsernameAsync(string username);
         public Task<IEnumerable<MemberDto>> GetAllMembersAsync();
     }
 }

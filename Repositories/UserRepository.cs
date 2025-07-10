@@ -28,7 +28,7 @@ namespace FitnessTrackerAPI.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<MemberDto?> GetMemberByUsername(string username)
+        public async Task<MemberDto?> GetMemberByUsernameAsync(string username)
         {
             return await context.Users
                 .Where(x => x.NormalizedUserName == username.ToUpper())
