@@ -12,6 +12,9 @@ namespace FitnessTrackerAPI.Interfaces
         public Task<IEnumerable<Workout>> GetWorkoutsForUserByTypeAsync(string type, int userId);
         public Task AddWorkoutAsync(Workout workout);
         public void DeleteWorkout(Workout workout);
+        public Task<int> GetUserWorkoutCountAsync(int userId);
+        public Task<int> GetUserWeightliftingCountAsync(int userId);
+        public Task<int> GetUserRunCountAsync(int userId);
         public Task<bool> SaveAllAsync();
     }
 }

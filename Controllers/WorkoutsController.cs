@@ -125,5 +125,30 @@ namespace FitnessTrackerAPI.Controllers
 
             else return BadRequest("Could not delete workout.");
         }
+
+        [HttpGet("count/{userId:int}")] // api/workouts/count
+        public async Task<ActionResult<int>> GetUserWorkoutCount(int userId)
+        {
+            int workoutCount = await _workoutRepository.GetUserWorkoutCountAsync(userId);
+
+
+            return Ok(workoutCount);
+        }
+
+        [HttpGet("run-count/{userId:int}")] // api/workouts/run-count
+        public async Task<ActionResult<int>> GetUserRunCount(int userId)
+        {
+            int workoutCount = await _workoutRepository.GetUserRunCountAsync(userId);
+
+            return Ok(workoutCount);
+        }
+
+        [HttpGet("lifting-count/{userId:int}")] // api/workouts/lifting-count
+        public async Task<ActionResult<int>> GetUserLiftingCount(int userId)
+        {
+            int workoutCount = await _workoutRepository.GetUserWeightliftingCountAsync(userId);
+
+            return Ok(workoutCount);
+        }
     }
 }

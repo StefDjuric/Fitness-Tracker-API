@@ -25,15 +25,14 @@ namespace FitnessTrackerAPI.Repositories
         public async Task<IEnumerable<WeightliftingLogDto>> GetAllWeightliftingLogsAsync()
         {
             return await _context.WeightliftingLogs
-                .AsNoTracking()
                 .ProjectTo<WeightliftingLogDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
         }
 
-        public Task<bool> SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

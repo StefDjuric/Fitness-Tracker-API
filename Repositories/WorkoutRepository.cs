@@ -22,7 +22,6 @@ namespace FitnessTrackerAPI.Repositories
         public async Task<IEnumerable<Workout>> GetAllWorkoutsAsync()
         {
             return await _context.Workouts
-                .AsNoTracking()
                 .Include(w => w.RunLog)
                 .Include(w => w.WeightliftingLog)
                 .ThenInclude(w => w.Exercises)
@@ -34,7 +33,6 @@ namespace FitnessTrackerAPI.Repositories
         public async Task<IEnumerable<Workout>> GetAllWorkoutsForUserAsync(int userId)
         {
             return await _context.Workouts
-                .AsNoTracking()
                 .Where(w => w.UserId == userId)
                 .Include(w => w.WeightliftingLog)
                 .ThenInclude(wl => wl.Exercises)
@@ -46,17 +44,36 @@ namespace FitnessTrackerAPI.Repositories
         public async Task<IEnumerable<Workout>> GetRunningWorkoutsForUserAsync(int userId)
         {
             return await _context.Workouts
-                .AsNoTracking()
                 .Where(w => w.UserId == userId)
                 .Include(w => w.RunLog)
                 .OrderByDescending(w => w.WorkoutDate)
                 .ToListAsync();
         }
 
+        public async Task<int> GetUserRunCountAsync(int userId)
+        {
+            return await _context.RunLogs
+                .Where(x => x.Workout.UserId == userId)
+                .CountAsync();
+        }
+
+        public async Task<int> GetUserWeightliftingCountAsync(int userId)
+        {
+            return await _context.WeightliftingLogs
+                .Where(x => x.Workout.UserId == userId)
+                .CountAsync();
+        }
+
+        public async Task<int> GetUserWorkoutCountAsync(int userId)
+        {
+            return await _context.Workouts
+                .Where(x => x.UserId == userId)
+                .CountAsync();
+        }
+
         public async Task<IEnumerable<Workout>> GetWeightliftingWorkoutsForUserAsync(int userId)
         {
             return await _context.Workouts
-                .AsNoTracking()
                 .Where(w => w.UserId == userId)
                 .Include(w => w.WeightliftingLog)
                 .ThenInclude(w => w.Exercises)
@@ -73,7 +90,6 @@ namespace FitnessTrackerAPI.Repositories
         public async Task<IEnumerable<Workout>> GetWorkoutsForUserByTypeAsync(string type, int userId)
         {
             return await _context.Workouts
-                .AsNoTracking()
                 .Where(w => w.UserId == userId && w.Type == type)
                 .OrderByDescending(w => w.WorkoutDate)
                 .ToListAsync();

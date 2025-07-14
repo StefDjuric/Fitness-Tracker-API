@@ -14,6 +14,9 @@ namespace FitnessTrackerAPI.Data
         public DbSet<RunLog> RunLogs { get; set; }
         public DbSet<WeightliftingLog> WeightliftingLogs { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<UserGoals> UserGoals { get; set; }
+        public DbSet<WeeklyProgress> WeeklyProgress { get; set; }
+        public DbSet<WeightEntry> WeightEntries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

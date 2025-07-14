@@ -25,7 +25,6 @@ namespace FitnessTrackerAPI.Repositories
         public async Task<IEnumerable<ExerciseDto>> GetAllExercisesAsync()
         {
             return await _context.Exercises
-                .AsNoTracking()
                 .ProjectTo<ExerciseDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -33,7 +32,6 @@ namespace FitnessTrackerAPI.Repositories
         public async Task<ExerciseDto?> GetExerciseByIdAsync(int exerciseId)
         {
             return await _context.Exercises
-                .AsNoTracking()
                 .Where(x => x.Id == exerciseId)
                 .ProjectTo<ExerciseDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
@@ -43,7 +41,6 @@ namespace FitnessTrackerAPI.Repositories
         {
             return await _context.Exercises
                 .Where(x => x.WeightliftingLogId == weightliftingId)
-                .AsNoTracking()
                 .ProjectTo<ExerciseDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
