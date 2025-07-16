@@ -80,7 +80,7 @@ namespace FitnessTrackerAPI.Controllers
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                return BadRequest("Could not set goals.");
+                return BadRequest($"Could not set goals. {ex}");
 
             }
 

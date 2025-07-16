@@ -15,6 +15,7 @@ namespace FitnessTrackerAPI.Helpers
             CreateMap<WeightliftingLog, WeightliftingLogDto>().ReverseMap();
             CreateMap<RunLog, RunLogDto>().ReverseMap();
             CreateMap<UserGoals, GoalsDto>().ReverseMap();
+            CreateMap<WeeklyProgress, WeeklyProgressDto>().ReverseMap();
         }
     }
 }
