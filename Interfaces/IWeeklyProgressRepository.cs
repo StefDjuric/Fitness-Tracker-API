@@ -11,6 +11,7 @@ namespace FitnessTrackerAPI.Interfaces
         public Task<WeeklyProgress?> GetWeeklyProgressByUserIdAsync(int userId);
         public Task InitializeWeeklyProgressAsync(WeeklyProgress weeklyProgress);
         public void RemoveWeeklyProgress(WeeklyProgress weeklyProgress);
+        public void Update(WeeklyProgress weeklyProgress);
         public Task<bool> SaveChangesAsync();
         public Task<IDbContextTransaction> BeginTransactionAsync();
     }

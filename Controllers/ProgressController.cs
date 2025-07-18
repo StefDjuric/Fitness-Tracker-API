@@ -39,7 +39,13 @@ namespace FitnessTrackerAPI.Controllers
         {
             var weeklyProgress = await _weeklyProgressRepository.GetWeeklyProgressByUserIdAsync(userId);
 
-            if (weeklyProgress == null) return NotFound("Weekly progress for user not found.");
+            if (weeklyProgress == null) return Ok(new WeeklyProgressDto
+            {
+                MealsEaten = 0,
+                WaterConsumed = 0,
+                WeekStartDate = DateOnly.FromDateTime(DateTime.UtcNow),
+                WorkoutsDone = 0
+            });
 
             return Ok(_mapper.Map<WeeklyProgressDto>(weeklyProgress));
         }
@@ -87,7 +93,7 @@ namespace FitnessTrackerAPI.Controllers
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                return BadRequest("Could not create new weekly progress.");
+                return BadRequest($"Could not create new weekly progress. {ex}");
             }
         }
 
@@ -100,7 +106,30 @@ namespace FitnessTrackerAPI.Controllers
 
             _weeklyProgressRepository.RemoveWeeklyProgress(existingWeeklyProgress);
 
-            return NoContent();
+            if(await _weeklyProgressRepository.SaveChangesAsync()) return NoContent();
+
+            return BadRequest("Could not delete weekly progress.");
+        }
+
+        [HttpPatch("{userId:int}")] // api/progress/userId
+        public async Task<ActionResult> PatchWeeklyProgressByUserId(int userId, [FromBody] WeeklyProgressUpdateDto updateDto)
+        {
+            var existingWeeklyProgress = await _weeklyProgressRepository.GetWeeklyProgressByUserIdAsync(userId);
+
+            if (existingWeeklyProgress == null) return NotFound("No weekly progress found. Please set your goals.");
+
+            if (updateDto.MealsEaten != null) existingWeeklyProgress.MealsEaten = (int)updateDto.MealsEaten;
+
+            if (updateDto.WorkoutsDone != null) existingWeeklyProgress.WorkoutsDone = (int)updateDto.WorkoutsDone;
+
+            if (updateDto.WaterConsumed != null) existingWeeklyProgress.WaterConsumed = (float)updateDto.WaterConsumed;
+
+
+            _weeklyProgressRepository.Update(existingWeeklyProgress);
+
+            if (await _weeklyProgressRepository.SaveChangesAsync()) return NoContent();
+
+            return StatusCode(500, "Could not update weekly progress.");
         }
     }
 }

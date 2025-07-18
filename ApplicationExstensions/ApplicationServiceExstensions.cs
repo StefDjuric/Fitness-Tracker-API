@@ -5,6 +5,7 @@ using FitnessTrackerAPI.Repositories;
 using FitnessTrackerAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace FitnessTrackerAPI.ApplicationExstensions
 {
@@ -24,7 +25,8 @@ namespace FitnessTrackerAPI.ApplicationExstensions
               .AddRoleManager<RoleManager<AppRole>>()
               .AddEntityFrameworkStores<DataContext>();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

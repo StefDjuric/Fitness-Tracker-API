@@ -39,7 +39,12 @@ namespace FitnessTrackerAPI.Controllers
         {
             var goal = await _goalsRepository.GetGoalsByUserIdAsync(userId);
 
-            if (goal == null) return NotFound("No goal group was found.");
+            if (goal == null) return Ok(new GoalsDto {
+                MealsEatenGoal = 0,
+                WaterGoalInLiters = 0,
+                WeightGoal = 0,
+                WorkoutsGoalInWeek = 0 }
+            );
 
             return Ok(_mapper.Map<GoalsDto>(goal));
         }

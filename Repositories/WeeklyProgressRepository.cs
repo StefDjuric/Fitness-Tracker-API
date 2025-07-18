@@ -53,5 +53,11 @@ namespace FitnessTrackerAPI.Repositories
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public void Update(WeeklyProgress weeklyProgress)
+        {
+            _context.WeeklyProgress.Update(weeklyProgress);
+        }
+
     }
 }
