@@ -6,8 +6,6 @@ namespace FitnessTrackerAPI.Entities
     {
         public required string FullName { get; set; }
         public string? Avatar { get; set; }
-        public int WeeklyWorkoutStreak { get; set; } = 0;
-
         public DateTime? CreatedAt { get; set; }
         public ICollection<UserRole> UserRoles { get; set; } = [];
     }

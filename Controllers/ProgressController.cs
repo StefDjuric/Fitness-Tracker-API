@@ -11,9 +11,11 @@ namespace FitnessTrackerAPI.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProgressController(IWeeklyProgressRepository weeklyProgressRepository, IMapper mapper) : ControllerBase
+    public class ProgressController(IWeeklyProgressRepository weeklyProgressRepository, IUserRepository userRepository
+        , IMapper mapper) : ControllerBase
     {
         private readonly IWeeklyProgressRepository _weeklyProgressRepository = weeklyProgressRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly IMapper _mapper = mapper;
 
         [HttpGet] // api/progress
@@ -37,15 +39,11 @@ namespace FitnessTrackerAPI.Controllers
         [HttpGet("for-user/{userId:int}")] // api/progress/for-user/userid
         public async Task<ActionResult<WeeklyProgressDto?>> GetWeeklyProgressByUserId(int userId)
         {
+            if (await _userRepository.GetUserByIdAsync(userId) == null) return NotFound("No user found with this id");
+
             var weeklyProgress = await _weeklyProgressRepository.GetWeeklyProgressByUserIdAsync(userId);
 
-            if (weeklyProgress == null) return Ok(new WeeklyProgressDto
-            {
-                MealsEaten = 0,
-                WaterConsumed = 0,
-                WeekStartDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                WorkoutsDone = 0
-            });
+            if (weeklyProgress == null) return NotFound("No weekly progress found.");
 
             return Ok(_mapper.Map<WeeklyProgressDto>(weeklyProgress));
         }
@@ -71,6 +69,7 @@ namespace FitnessTrackerAPI.Controllers
                     UserId = userId,
                     MealsEaten = 0,
                     WaterConsumed = 0,
+                    WeeklyWorkoutStreak = 0,
                     WorkoutsDone = 0,
                     WeekStartDate = DateOnly.FromDateTime(DateTime.UtcNow),
                     UpdatedAt = DateTime.UtcNow,
@@ -114,17 +113,18 @@ namespace FitnessTrackerAPI.Controllers
         [HttpPatch("{userId:int}")] // api/progress/userId
         public async Task<ActionResult> PatchWeeklyProgressByUserId(int userId, [FromBody] WeeklyProgressUpdateDto updateDto)
         {
+            if (await _userRepository.GetUserByIdAsync(userId) == null) return NotFound("No user found with this id");
+
             var existingWeeklyProgress = await _weeklyProgressRepository.GetWeeklyProgressByUserIdAsync(userId);
 
-            if (existingWeeklyProgress == null) return NotFound("No weekly progress found. Please set your goals.");
+            if (existingWeeklyProgress == null) {
+                return NotFound("No weekly repository found.");
+            }
 
             if (updateDto.MealsEaten != null) existingWeeklyProgress.MealsEaten = (int)updateDto.MealsEaten;
-
             if (updateDto.WorkoutsDone != null) existingWeeklyProgress.WorkoutsDone = (int)updateDto.WorkoutsDone;
-
             if (updateDto.WaterConsumed != null) existingWeeklyProgress.WaterConsumed = (float)updateDto.WaterConsumed;
-
-
+            if(updateDto.WeeklyWorkoutStreak != null) existingWeeklyProgress.WeeklyWorkoutStreak = (int)updateDto.WeeklyWorkoutStreak;
             _weeklyProgressRepository.Update(existingWeeklyProgress);
 
             if (await _weeklyProgressRepository.SaveChangesAsync()) return NoContent();
