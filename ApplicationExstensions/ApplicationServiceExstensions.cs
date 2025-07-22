@@ -44,6 +44,7 @@ namespace FitnessTrackerAPI.ApplicationExstensions
             services.AddScoped<IWorkoutRepository, WorkoutRepository>();
             services.AddScoped<IGoalsRepository, GoalsRepository>();
             services.AddScoped<IWeeklyProgressRepository, WeeklyProgressRepository>();
+            services.AddScoped<IWeightEntryRepository, WeightEntryRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
 
