@@ -30,10 +30,13 @@ namespace FitnessTrackerAPI.Repositories
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<WeightEntryDto?>> GetWeightEntriesByUserIdAsync(int userId)
+        public async Task<IEnumerable<WeightEntryDto?>> GetWeightEntriesByUserIdAsync(int userId, int daysBack)
         {
+            var cuttofDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-daysBack));
+
             return await _context.WeightEntries
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId == userId && x.Date >= cuttofDate)
+                .OrderBy(x => x.Date)
                 .ProjectTo<WeightEntryDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }

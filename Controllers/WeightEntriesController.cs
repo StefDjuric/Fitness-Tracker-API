@@ -34,11 +34,11 @@ namespace FitnessTrackerAPI.Controllers
             return Ok(_mapper.Map<WeightEntryDto>(weightEntry));
         }
 
-        [HttpGet("for-user")] // apu/weightentries/for-user
-        public async Task<ActionResult<List<WeightEntryDto>>> GetWeightEntriesForUser()
+        [HttpGet("for-user")] // api/weightentries/for-user
+        public async Task<ActionResult<List<WeightEntryDto>>> GetWeightEntriesForUser([FromQuery]int days)
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var userWeightEntries = await _weightEntryRepository.GetWeightEntriesByUserIdAsync(userId);
+            var userWeightEntries = await _weightEntryRepository.GetWeightEntriesByUserIdAsync(userId, days);
 
             return Ok(userWeightEntries);
         }
