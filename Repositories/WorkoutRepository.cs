@@ -83,7 +83,11 @@ namespace FitnessTrackerAPI.Repositories
 
         public async Task<Workout?> GetWorkoutByIdAsync(int id)
         {
-            return await _context.Workouts.FirstOrDefaultAsync(w => w.Id == id);
+            return await _context.Workouts
+                .Include(x => x.WeightliftingLog)
+                .ThenInclude(x => x.Exercises)
+                .Include(x => x.RunLog)
+                .FirstOrDefaultAsync(w => w.Id == id);
         }
 
 
