@@ -5,6 +5,7 @@ namespace FitnessTrackerAPI.Models
 {
     public class WorkoutDto
     {
+        public int? Id { get; set; }
         [Required]
         public required string Type { get; set; }
         [Required]
