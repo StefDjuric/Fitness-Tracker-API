@@ -56,7 +56,7 @@ namespace FitnessTrackerAPI.Repositories
 
         public void Update(User user)
         {
-            context.Entry(user).State = EntityState.Modified;
+            context.Users.Update(user);
         }
     }
 }
